@@ -8,7 +8,7 @@
 3. Write HTTP server in Go
 4. Dockerize HTTP server :whale:
 5. Kubernetes yaml setup
-6. Run contsainer on Kubernetes cluster
+6. Run container on Kubernetes cluster
 7. Conclusion
 
 ## 1. Introduction
@@ -112,7 +112,7 @@ func main() {
 ```
 ## 4. Dockerize HTTP Server
 
-Now we need to containerize our application with Docker. Therefore, create a "Dockerfile" as shown in the file structure above. Then include the following code: 
+Now we need to containerize our application with Docker. Therefore, create a "Dockerfile" as shown in the file structure above. Before you do this, be sure to type `go mod init` into a terminal in your project folder to create a `go.mod` file. Then include the following code: 
 ```
 FROM golang:alpine AS build
 
@@ -149,4 +149,76 @@ Finally, push your image
 ```
 docker push jakwai01/http-server
 ```
+If you got trouble at any of these steps, maybe consider double checking with another tutorial(https://hackernoon.com/publish-your-docker-image-to-docker-hub-10b826793faf)
+
+## Kubernetes yaml setup
+
+Now we need to create a stack.yaml file (you can choose the name of the yaml file by yourself). 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-server
+spec:
+  selector:
+    matchLabels:
+      app: http-server
+  template:
+    metadata:
+      labels:
+        app: http-server
+    spec:
+      containers:
+        - name: http-server
+          image: jakwai01/http-server
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: http-server
+spec:
+  selector:
+    app: http-server
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: http-server
+spec:
+  backend:
+    serviceName: http-server
+    servicePort: 8080
+  rules:
+    - host: http-server.services.jakobwaibel.com
+      http:
+        paths:
+          - backend:
+              serviceName: http-server
+              servicePort: 8080
+```
+If you have trouble understanding why we use Ingress right here, consider checking out https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0. Furthermore, the "host: http-server.services.jakobwaibel.com" is just an address assigned to all of my services. 
+
+## 6. Run container on Kubernetes cluster
+
+To run the container on your Kubernetes cluster, just use the following command in your project folder where your `stack.yaml` is located.
+```
+kubectl apply -f .
+```
+Now there should be a pod running the application on your Kubernetes cluster.
+
+## 7. Conclusion
+
+If everything worked, you just deployed a containerized Go application in a Docker container image and ran that container on a Kubernetes cluster. If you had any trouble following this tutorial, please let me know. I will try to update this tutorial from time to time to make it easy to follow as my own understanding of Docker and Kubernetes improves. Thanks for reading :).
 
