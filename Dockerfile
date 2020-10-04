@@ -1,7 +1,15 @@
-FROM golang:1.12.0-alpine3.9
+FROM golang:alpine AS build
+
 RUN apk add git
-RUN mkdir /app
-ADD . /app
-WORKDIR /app
-RUN go build -o main ./cmd/http-server/main.go
-CMD ["/app/main"]
+
+RUN mkdir /src
+ADD . /src
+WORKDIR /src
+
+RUN go build -o /tmp/http-server ./cmd/http-server/main.go
+
+FROM alpine:edge
+
+COPY --from=build /tmp/http-server /sbin/http-server
+
+CMD /sbin/http-server
