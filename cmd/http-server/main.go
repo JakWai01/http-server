@@ -13,9 +13,9 @@ func main() {
 	flag.Parse()
 
 	listeningPort := ":" + *port
-	log.Println(*listeningPort)
+	log.Println(listeningPort)
 
-	httpServer := server.NewHTTPServer(*listeningPort)
+	httpServer := server.NewHTTPServer(listeningPort)
 
 	if err := httpServer.Open(); err != nil {
 		log.Fatal("could not open httpServer", err)
