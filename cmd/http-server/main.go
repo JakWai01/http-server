@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"log"
+
+	"github.com/JakWai01/http-server/pkg/server"
 )
 
 func main() {
@@ -12,5 +14,11 @@ func main() {
 
 	listeningPort := ":" + *port
 	log.Println(listeningPort)
+
+	httpServer := server.NewHTTPServer(*listeningPort)
+
+	if err := httpServer.Open(); err != nil {
+		log.Fatal("could not open httpServer", err)
+	}
 
 }
