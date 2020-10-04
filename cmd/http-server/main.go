@@ -13,7 +13,7 @@ func main() {
 	flag.Parse()
 
 	listeningPort := ":" + *port
-	log.Println(listeningPort)
+	log.Println(*listeningPort)
 
 	httpServer := server.NewHTTPServer(*listeningPort)
 
