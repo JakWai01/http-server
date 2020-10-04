@@ -112,4 +112,41 @@ func main() {
 ```
 ## 4. Dockerize HTTP Server
 
+Now we need to containerize our application with Docker. Therefore, create a "Dockerfile" as shown in the file structure above. Then include the following code: 
+```
+FROM golang:alpine AS build
+
+RUN apk add git
+
+RUN mkdir /src
+ADD . /src
+WORKDIR /src
+
+RUN go build -o /tmp/http-server ./cmd/http-server/main.go
+
+FROM alpine:edge
+
+COPY --from=build /tmp/http-server /sbin/http-server
+
+CMD /sbin/http-server
+```
+If you are currently working on your own application just replace "http-server" with your projects name and "./cmd/http-server/main.go" with the path to your executable main.
+
+Next you need to create the docker image. You need to name your project following this convention: "$DOCKERHUB_USERNAME/$PROJECTNAME" (If you do not have a Dockerhub account by now, create one)
+
+```
+docker build -t jakwai01/http-server .
+```
+Now check if your container works
+```
+docker run -p 8080:8080 jakwai01/http-server
+```
+If this works, login to Dockerhub
+```
+docker login
+```
+Finally, push your image
+```
+docker push jakwai01/http-server
+```
 
