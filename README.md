@@ -27,8 +27,8 @@ This section will be about the file structure used in this tutorial. "It's not a
 
 ### File structure 
 
-![alt text][file-structure](https://github.com/JakWai01/http-server/blob/main/images/file-structure.png "File structure")
+![img](https://github.com/JakWai01/http-server/blob/main/images/file-structure.png "File structure")
 
-The picture above displays the file structure used for this project as well as all files you will need. You can also check out the repository in general above the README to get the hang of it. 
+The picture above displays the file structure used for this project as well as all files you will need. You can also check out the repository in general above the README to get into it. 
 
 
