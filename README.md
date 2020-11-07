@@ -13,7 +13,7 @@
 
 ## 1. Introduction
 
-The following Tutorial will instruct the reader on deploying a containerized Go apllication in a Docker container image and run that container on a Kubernetes cluster. Therefore we will build a simple HTTP Server.
+The following Tutorial will instruct the reader on deploying a containerized Go application in a Docker container image and run that container on a Kubernetes cluster. Therefore we will build a simple HTTP Server.
 
 ### Requirements
 
