@@ -34,7 +34,7 @@ The picture above displays the file structure used for this project as well as a
 ## 3. Write HTTP server in Go
 
 The almost simplest HTTP Server you can write in Go looks like this: 
-```
+```go
 package main
 
 import (
@@ -53,7 +53,7 @@ func main() {
 
 ```
 In this tutorial though, we split our application into two parts. The `main.go` and the `http.go`. The `http.go` looks like this: 
-```
+```go
 package server
 
 import (
@@ -84,7 +84,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 ```
 and the `main.go` looks like this: 
-```
+```go
 package main
 
 import (
@@ -113,7 +113,7 @@ func main() {
 ## 4. Dockerize HTTP Server
 
 Now we need to containerize our application with Docker. Therefore, create a "Dockerfile" as shown in the file structure above. Before you do this, be sure to type `go mod init` into a terminal in your project folder to create a `go.mod` file. Then include the following code: 
-```
+```dockerfile
 FROM golang:alpine AS build
 
 RUN apk add git
@@ -155,7 +155,7 @@ If you got trouble at any of these steps, maybe consider double checking with an
 
 Now we need to create a stack.yaml file (you can choose the name of the yaml file by yourself). 
 
-```
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
