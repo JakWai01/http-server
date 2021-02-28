@@ -61,7 +61,7 @@ import (
 	"net/http"
 )
 
-// HTTPServer creates a http server and can be reached through the porvided port
+// HTTPServer creates a http server and can be reached through the provided port
 type HTTPServer struct {
 	port string
 }
